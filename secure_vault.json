@@ -1,0 +1,5 @@
+{
+  "salt": "base64",
+  "master_hash": "base64",
+  "encrypted_data": "base64(Fernet.encrypt(json(credentials)))"
+}
