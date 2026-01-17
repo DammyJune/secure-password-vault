@@ -1,29 +1,47 @@
 # 🔐 Secure Password Vault
 
-Console-based password manager built with cryptography best practices.  
-Project created by a female cybersecurity student to demonstrate secure credential storage in the SDLC context.
+Secure Local Password Manager – Console-based application built with modern cryptography practices.
 
-## Security Features
-- PBKDF2-SHA256 key derivation (100,000 iterations)
-- Fernet (AES-128 + HMAC-SHA256) symmetric encryption
-- Never stores master password
-- Salted hashing
-- Memory cleaning on lock/exit
+Student Information  
+- Name: Junaid Oluwadamilare Ayomide
+- Department: Cybersecurity  
+- Matriculation Number: [24/13839]  
+
+Course: (SEN201) Assignment  
+Project Focus: Secure credential storage, cryptography basics, threat modeling, and full SDLC implementation  
+
+## Project Overview
+This is a console-based password vault that securely stores website credentials using:  
+- PBKDF2 key derivation (with salt)  
+- Fernet symmetric encryption (AES-128 in CBC + HMAC-SHA256)  
+- Never stores the master password in plain text  
+- Data encrypted at rest in secure_vault.json  
+
+All names and nomenclatures used in the design match exactly with the implementation:  
+- Class: SecureVault  
+- Key methods: derive_key(), verify_master_password(), unlock(), add_credential(), get_credential(), list_credentials(), delete_credential()  
+- File: secure_vault.json  
+- Main functions: load_vault(), save_vault(), set_master_password(), unlock_vault(), display_menu()  
+
+## Features
+- Set / change master password (first-time setup)  
+- Unlock vault with master password  
+- Add website credentials (website, username, password)  
+- View specific credential  
+- List all stored websites  
+- Delete credential  
+- Lock vault (clears sensitive data from memory)  
+- Persistent encrypted storage  
+
+## Security Design (Consistent Nomenclature)
+- salt → Random 16-byte value per vault  
+- master_hash → PBKDF2-SHA256 hash of master password (32 bytes)  
+- derive_key() → Generates Fernet-compatible key using PBKDF2  
+- fernet → Fernet object used for encrypt/decrypt  
+- encrypted_data → Base64-encoded encrypted JSON of credentials  
+- Memory is cleared on lock/exit (credentials = {} and fernet = None)  
 
 ## How to Run
-```bash
-pip install cryptography
-python secure_vault.py
-
-class SecureVault:
-    • master_key_hash     (bytes)          # PBKDF2 of master password
-    • salt                (bytes)
-    • credentials         (dict)           # website → {"username": str, "password": str (plaintext in memory only)}
-    
-    Methods (exact names used in code):
-    • derive_key(master_password) → Fernet key
-    • verify_master_password(password) → bool
-    • add_credential(website, username, password)
-    • get_credential(website)
-    • delete_credential(website)
-    • list_all_websites()
+1. Install the required library (only once):
+   `bash
+   pip install cryptography
